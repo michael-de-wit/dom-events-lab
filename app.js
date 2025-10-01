@@ -24,7 +24,7 @@ buttonElements.forEach(element => {
         console.log(buttonSelectedElement.innerHTML);
         buttonSelected = buttonSelectedElement.innerHTML
 
-        if(buttonSelectedElement.innerHTML === `=`) {
+        if (buttonSelectedElement.innerHTML === `=`) {
             console.log(`currentTotal: ${currentTotal}`);
         }
 
@@ -46,61 +46,31 @@ buttonElements.forEach(element => {
             } else if (buttonSelectedElement.className.includes(`operator`) && buttonSelectedElement.innerHTML != `C`) {
                 arthimeticOperatorLead = buttonSelectedElement.innerHTML
                 console.log(`arthimeticOperator: ${arthimeticOperatorLead}`);
+                
                 arithmeticOperatorArray.push(arthimeticOperatorLead)
                 console.log(`arithmeticOperatorArray: ${arithmeticOperatorArray}`);
-
-                console.log(buttonSelectedElement.className);
+                
                 NumbersToOperateOnArray.push(builtNumberAsNumber)
                 console.log(`NumbersToOperateOnArray: ${NumbersToOperateOnArray}`);
 
-                if(NumbersToOperateOnArray.length === 2) {
+                if (NumbersToOperateOnArray.length === 2) {
                     console.log(`2 numbers`);
-                    if(arithmeticOperatorArray[0] === `+`) {
-                        currentTotal = NumbersToOperateOnArray[0] + NumbersToOperateOnArray[1]
-                        console.log(`currentTotal: ${currentTotal}`);
+                    if (arithmeticOperatorArray[0] === `+`) {
+                        performAdd(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1])
 
-                        NumbersToOperateOnArray = []
-                        NumbersToOperateOnArray.push(currentTotal)
+                    } else if (arithmeticOperatorArray[0] === `-`) {
+                        performSubtract(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1])
 
-                        arithmeticOperatorArray = []
-                        arithmeticOperatorArray.push(arthimeticOperatorLead)
-                    } else if(arithmeticOperatorArray[0] === `-`) {
-                        currentTotal = NumbersToOperateOnArray[0] - NumbersToOperateOnArray[1]
-                        console.log(`currentTotal: ${currentTotal}`);
+                    } else if (arithmeticOperatorArray[0] === `*`) {
+                        performMultiply(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1])
 
-                        NumbersToOperateOnArray = []
-                        NumbersToOperateOnArray.push(currentTotal)
-
-                        arithmeticOperatorArray = []
-                        arithmeticOperatorArray.push(arthimeticOperatorLead)
-                    } else if(arithmeticOperatorArray[0] === `*`) {
-                        currentTotal = NumbersToOperateOnArray[0] * NumbersToOperateOnArray[1]
-                        console.log(`currentTotal: ${currentTotal}`);
-
-                        NumbersToOperateOnArray = []
-                        NumbersToOperateOnArray.push(currentTotal)
-
-                        arithmeticOperatorArray = []
-                        arithmeticOperatorArray.push(arthimeticOperatorLead)
-                    } else if(arithmeticOperatorArray[0] === `/`) {
-                        currentTotal = NumbersToOperateOnArray[0] / NumbersToOperateOnArray[1]
-                        console.log(`currentTotal: ${currentTotal}`);
-
-                        NumbersToOperateOnArray = []
-                        NumbersToOperateOnArray.push(currentTotal)
-
-                        arithmeticOperatorArray = []
-                        arithmeticOperatorArray.push(arthimeticOperatorLead)
+                    } else if (arithmeticOperatorArray[0] === `/`) {
+                        performDivide(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1])
                     }
                 }
 
-                
-
                 //Clear the previous number
-                numberSelected = ``
-                numberSelectedArray = []
-                builtNumberAsNumber = ''
-                builtNumberAsNumber = 0
+                clearNumberInProgressAfterOperatorSelected()
             };
         }
 
@@ -133,3 +103,51 @@ console.dir(buttonElements);
 function storeButtonSelected(event) {
     console.log(`clicked3`);
 };
+
+function performAdd(LeadingNumberToOperateOn, TrailingNumberToOperateOn) {
+    currentTotal = LeadingNumberToOperateOn + TrailingNumberToOperateOn
+
+    console.log(`currentTotal: ${currentTotal}`);
+
+    resetAfterArithmetic()
+}
+
+function performSubtract(LeadingNumberToOperateOn, TrailingNumberToOperateOn) {
+    currentTotal = LeadingNumberToOperateOn - TrailingNumberToOperateOn
+
+    console.log(`currentTotal: ${currentTotal}`);
+
+    resetAfterArithmetic()
+}
+
+function performMultiply(LeadingNumberToOperateOn, TrailingNumberToOperateOn) {
+    currentTotal = LeadingNumberToOperateOn * TrailingNumberToOperateOn
+
+    console.log(`currentTotal: ${currentTotal}`);
+
+    resetAfterArithmetic()
+}
+
+function performDivide(LeadingNumberToOperateOn, TrailingNumberToOperateOn) {
+    currentTotal = LeadingNumberToOperateOn / TrailingNumberToOperateOn
+
+    console.log(`currentTotal: ${currentTotal}`);
+
+    resetAfterArithmetic()
+}
+
+
+function resetAfterArithmetic() {
+    NumbersToOperateOnArray = []
+    NumbersToOperateOnArray.push(currentTotal)
+
+    arithmeticOperatorArray = []
+    arithmeticOperatorArray.push(arthimeticOperatorLead)
+}
+
+function clearNumberInProgressAfterOperatorSelected() {
+    numberSelected = ``
+    numberSelectedArray = []
+    builtNumberAsNumber = ''
+    builtNumberAsNumber = 0
+}
