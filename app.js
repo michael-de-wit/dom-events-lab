@@ -54,19 +54,7 @@ buttonElements.forEach(element => {
                 console.log(`NumbersToOperateOnArray: ${NumbersToOperateOnArray}`);
 
                 if (NumbersToOperateOnArray.length === 2) {
-                    console.log(`2 numbers`);
-                    if (arithmeticOperatorArray[0] === `+`) {
-                        performAdd(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1])
-
-                    } else if (arithmeticOperatorArray[0] === `-`) {
-                        performSubtract(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1])
-
-                    } else if (arithmeticOperatorArray[0] === `*`) {
-                        performMultiply(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1])
-
-                    } else if (arithmeticOperatorArray[0] === `/`) {
-                        performDivide(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1])
-                    }
+                    performArithmetic(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1], arithmeticOperatorArray[0])
                 }
 
                 //Clear the previous number
@@ -75,10 +63,6 @@ buttonElements.forEach(element => {
         }
 
         // console.log(`Most recent numberSelected: ${numberSelected} ${typeof numberSelected}`);
-
-
-
-
 
     });
 });
@@ -99,6 +83,24 @@ console.dir(buttonElements);
 // buttonArray.addEventListener('click', storeButtonSelected)
 
 /*-------------------------------- Functions --------------------------------*/
+
+function performArithmetic(LeadingNumberToOperateOn, TrailingNumberToOperateOn, LeadingArithmeticOperator) {
+
+        console.log(`2 numbers`);
+        if (LeadingArithmeticOperator === `+`) {
+            performAdd(LeadingNumberToOperateOn, TrailingNumberToOperateOn)
+
+        } else if (LeadingArithmeticOperator === `-`) {
+            performSubtract(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1])
+
+        } else if (LeadingArithmeticOperator === `*`) {
+            performMultiply(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1])
+
+        } else if (LeadingArithmeticOperator === `/`) {
+            performDivide(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1])
+        }
+};
+
 
 function storeButtonSelected(event) {
     console.log(`clicked3`);
