@@ -15,6 +15,7 @@ let builtNumberAsNumber = 0 //Concatenated/full number as number data type
 let currentTotal = 0
 let arthimeticOperator = ``
 let NumbersToOperateOnArray = []
+let arithmeticOperatorArray = []
 
 buttonElements.forEach(element => {
     element.addEventListener('click', () => {
@@ -22,6 +23,10 @@ buttonElements.forEach(element => {
         buttonSelectedElement = element
         console.log(buttonSelectedElement.innerHTML);
         buttonSelected = buttonSelectedElement.innerHTML
+
+        if(buttonSelectedElement.innerHTML === `=`) {
+            console.log(`currentTotal: ${currentTotal}`);
+        }
 
         if (buttonSelectedElement.innerHTML != `C` && buttonSelectedElement.innerHTML != `=`) {
             //Combine the selected numbers
@@ -39,24 +44,54 @@ buttonElements.forEach(element => {
 
                 //When you select /,*,-,+ ; i.e. an operator that does something; an arithmetic operator
             } else if (buttonSelectedElement.className.includes(`operator`) && buttonSelectedElement.innerHTML != `C`) {
-                arthimeticOperator = buttonSelectedElement.innerHTML
-                console.log(`arthimeticOperator: ${arthimeticOperator}`);
+                arthimeticOperatorLead = buttonSelectedElement.innerHTML
+                console.log(`arthimeticOperator: ${arthimeticOperatorLead}`);
+                arithmeticOperatorArray.push(arthimeticOperatorLead)
+                console.log(`arithmeticOperatorArray: ${arithmeticOperatorArray}`);
+
                 console.log(buttonSelectedElement.className);
                 NumbersToOperateOnArray.push(builtNumberAsNumber)
                 console.log(`NumbersToOperateOnArray: ${NumbersToOperateOnArray}`);
 
                 if(NumbersToOperateOnArray.length === 2) {
                     console.log(`2 numbers`);
-                    if(arthimeticOperator === `+`) {
+                    if(arithmeticOperatorArray[0] === `+`) {
                         currentTotal = NumbersToOperateOnArray[0] + NumbersToOperateOnArray[1]
                         console.log(`currentTotal: ${currentTotal}`);
 
                         NumbersToOperateOnArray = []
                         NumbersToOperateOnArray.push(currentTotal)
-                    } else if(arthimeticOperator === `-`) {
+
+                        arithmeticOperatorArray = []
+                        arithmeticOperatorArray.push(arthimeticOperatorLead)
+                    } else if(arithmeticOperatorArray[0] === `-`) {
                         currentTotal = NumbersToOperateOnArray[0] - NumbersToOperateOnArray[1]
                         console.log(`currentTotal: ${currentTotal}`);
-                    } 
+
+                        NumbersToOperateOnArray = []
+                        NumbersToOperateOnArray.push(currentTotal)
+
+                        arithmeticOperatorArray = []
+                        arithmeticOperatorArray.push(arthimeticOperatorLead)
+                    } else if(arithmeticOperatorArray[0] === `*`) {
+                        currentTotal = NumbersToOperateOnArray[0] * NumbersToOperateOnArray[1]
+                        console.log(`currentTotal: ${currentTotal}`);
+
+                        NumbersToOperateOnArray = []
+                        NumbersToOperateOnArray.push(currentTotal)
+
+                        arithmeticOperatorArray = []
+                        arithmeticOperatorArray.push(arthimeticOperatorLead)
+                    } else if(arithmeticOperatorArray[0] === `/`) {
+                        currentTotal = NumbersToOperateOnArray[0] / NumbersToOperateOnArray[1]
+                        console.log(`currentTotal: ${currentTotal}`);
+
+                        NumbersToOperateOnArray = []
+                        NumbersToOperateOnArray.push(currentTotal)
+
+                        arithmeticOperatorArray = []
+                        arithmeticOperatorArray.push(arthimeticOperatorLead)
+                    }
                 }
 
                 
