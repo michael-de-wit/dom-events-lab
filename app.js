@@ -25,33 +25,23 @@ buttonElements.forEach(element => {
         buttonSelected = buttonSelectedElement.innerHTML
 
         if (buttonSelectedElement.innerHTML === `=`) {
-            console.log(`currentTotal: ${currentTotal}`);
+            storeFullNumberAndArithmeticOperator(buttonSelectedElement.innerHTML)
+            if (NumbersToOperateOnArray.length === 2) {
+                performArithmetic(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1], arithmeticOperatorArray[0])
+            }
+            clearNumberInProgressAfterOperatorSelected()
         }
 
         if (buttonSelectedElement.innerHTML != `C` && buttonSelectedElement.innerHTML != `=`) {
             //Combine the selected numbers
             if (!isNaN(parseInt(buttonSelected))) { //If the button selected can be parsed into an integer; i.e. the string can be converted into an number
-                numberSelected = parseInt(buttonSelected) //Convert the number in string data type into number data type
 
-                numberSelectedArray.push(numberSelected) //Append the selected number to an array
-                console.log(numberSelectedArray);
-
-                builtNumberAsString = numberSelectedArray.join(``) //Concatenate the numbers in the array into a full number, in string data type
-                console.log(builtNumberAsString);
-
-                builtNumberAsNumber = parseInt(builtNumberAsString)// Convert the full number from string to number data type
-                console.log(typeof builtNumberAsNumber);
+                buildFullNumberFromDigits(buttonSelected)
 
                 //When you select /,*,-,+ ; i.e. an operator that does something; an arithmetic operator
             } else if (buttonSelectedElement.className.includes(`operator`) && buttonSelectedElement.innerHTML != `C`) {
-                arthimeticOperatorLead = buttonSelectedElement.innerHTML
-                console.log(`arthimeticOperator: ${arthimeticOperatorLead}`);
-                
-                arithmeticOperatorArray.push(arthimeticOperatorLead)
-                console.log(`arithmeticOperatorArray: ${arithmeticOperatorArray}`);
-                
-                NumbersToOperateOnArray.push(builtNumberAsNumber)
-                console.log(`NumbersToOperateOnArray: ${NumbersToOperateOnArray}`);
+                storeFullNumberAndArithmeticOperator(buttonSelectedElement.innerHTML)
+
 
                 if (NumbersToOperateOnArray.length === 2) {
                     performArithmetic(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1], arithmeticOperatorArray[0])
@@ -84,21 +74,45 @@ console.dir(buttonElements);
 
 /*-------------------------------- Functions --------------------------------*/
 
+function buildFullNumberFromDigits(numberAsString) {
+    numberSelected = parseInt(numberAsString) //Convert the number in string data type into number data type
+
+    numberSelectedArray.push(numberSelected) //Append the selected number to an array
+    console.log(numberSelectedArray);
+
+    builtNumberAsString = numberSelectedArray.join(``) //Concatenate the numbers in the array into a full number, in string data type
+    console.log(builtNumberAsString);
+
+    builtNumberAsNumber = parseInt(builtNumberAsString)// Convert the full number from string to number data type
+    console.log(typeof builtNumberAsNumber);
+}
+
+function storeFullNumberAndArithmeticOperator(arithmeticOperator) {
+    arthimeticOperatorLead = arithmeticOperator
+    console.log(`arthimeticOperator: ${arthimeticOperatorLead}`);
+
+    arithmeticOperatorArray.push(arthimeticOperatorLead)
+    console.log(`arithmeticOperatorArray: ${arithmeticOperatorArray}`);
+
+    NumbersToOperateOnArray.push(builtNumberAsNumber)
+    console.log(`NumbersToOperateOnArray: ${NumbersToOperateOnArray}`);
+}
+
 function performArithmetic(LeadingNumberToOperateOn, TrailingNumberToOperateOn, LeadingArithmeticOperator) {
 
-        console.log(`2 numbers`);
-        if (LeadingArithmeticOperator === `+`) {
-            performAdd(LeadingNumberToOperateOn, TrailingNumberToOperateOn)
+    console.log(`2 numbers`);
+    if (LeadingArithmeticOperator === `+`) {
+        performAdd(LeadingNumberToOperateOn, TrailingNumberToOperateOn)
 
-        } else if (LeadingArithmeticOperator === `-`) {
-            performSubtract(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1])
+    } else if (LeadingArithmeticOperator === `-`) {
+        performSubtract(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1])
 
-        } else if (LeadingArithmeticOperator === `*`) {
-            performMultiply(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1])
+    } else if (LeadingArithmeticOperator === `*`) {
+        performMultiply(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1])
 
-        } else if (LeadingArithmeticOperator === `/`) {
-            performDivide(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1])
-        }
+    } else if (LeadingArithmeticOperator === `/`) {
+        performDivide(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1])
+    }
 };
 
 
