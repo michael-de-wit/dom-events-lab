@@ -1,6 +1,9 @@
 /*-------------------------------- Constants --------------------------------*/
 const buttonElements = document.querySelectorAll(`.button`)
-console.log(buttonElements.length);
+const displayElement = document.querySelector(`.display`)
+// console.log(buttonElements.length);
+console.log(displayElement);
+
 
 // for(element of buttonElements) {
 //     element.addEventListener('click', () => {
@@ -16,6 +19,8 @@ let currentTotal = 0
 let arthimeticOperator = ``
 let NumbersToOperateOnArray = []
 let arithmeticOperatorArray = []
+let currentFullNumber = 0
+let FullNumberToDisplay = 0
 
 buttonElements.forEach(element => {
     element.addEventListener('click', () => {
@@ -33,15 +38,18 @@ buttonElements.forEach(element => {
             arthimeticOperator = ``
             NumbersToOperateOnArray = []
             arithmeticOperatorArray = []
+            displayElement.innerHTML = ``
         }
 
         if (buttonSelectedElement.innerHTML === `=`) {
             storeFullNumberAndArithmeticOperator(buttonSelectedElement.innerHTML)
             if (NumbersToOperateOnArray.length === 2) {
-                performArithmetic(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1], arithmeticOperatorArray[0])
+                FullNumberToDisplay = performArithmetic(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1], arithmeticOperatorArray[0])
+                console.log(`currentFullNumber: ${FullNumberToDisplay}`);
+                displayElement.innerHTML = FullNumberToDisplay
 
             }
-            console.log(`NumbersToOperateOnArray!!: ${NumbersToOperateOnArray}`);
+            // console.log(`NumbersToOperateOnArray!!: ${NumbersToOperateOnArray}`);
             clearNumberInProgressAfterOperatorSelected()
             NumbersToOperateOnArray = []
             arithmeticOperatorArray = []
@@ -53,7 +61,9 @@ buttonElements.forEach(element => {
             //Combine the selected numbers
             if (!isNaN(parseInt(buttonSelected))) { //If the button selected can be parsed into an integer; i.e. the string can be converted into an number
 
-                buildFullNumberFromDigits(buttonSelected)
+                FullNumberToDisplay = buildFullNumberFromDigits(buttonSelected)
+                console.log(`currentFullNumber: ${FullNumberToDisplay}`);
+                displayElement.innerHTML = FullNumberToDisplay
 
                 //When you select /,*,-,+ ; i.e. an operator that does something; an arithmetic operator
             } else if (buttonSelectedElement.className.includes(`operator`) && buttonSelectedElement.innerHTML != `C`) {
@@ -61,7 +71,9 @@ buttonElements.forEach(element => {
 
 
                 if (NumbersToOperateOnArray.length === 2) {
-                    performArithmetic(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1], arithmeticOperatorArray[0])
+                    FullNumberToDisplay = performArithmetic(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1], arithmeticOperatorArray[0])
+                    console.log(`FullNumberToDisplay: ${FullNumberToDisplay}`);
+                    displayElement.innerHTML = FullNumberToDisplay
                 }
 
                 //Clear the previous number
@@ -78,7 +90,7 @@ buttonElements.forEach(element => {
 
 // const individualButtonElement = buttonElements
 // console.dir(buttonElements[0].innerHTML);
-console.dir(buttonElements);
+// console.dir(buttonElements);
 
 
 /*-------------------------------- Variables --------------------------------*/
@@ -95,30 +107,32 @@ function buildFullNumberFromDigits(numberAsString) {
     numberSelected = parseInt(numberAsString) //Convert the number in string data type into number data type
 
     numberSelectedArray.push(numberSelected) //Append the selected number to an array
-    console.log(numberSelectedArray);
+    // console.log(numberSelectedArray);
 
     builtNumberAsString = numberSelectedArray.join(``) //Concatenate the numbers in the array into a full number, in string data type
-    console.log(builtNumberAsString);
+    // console.log(builtNumberAsString);
 
     builtNumberAsNumber = parseInt(builtNumberAsString)// Convert the full number from string to number data type
-    console.log(typeof builtNumberAsNumber);
+    // console.log(typeof builtNumberAsNumber);
+
+    return builtNumberAsNumber;
 }
 
 function storeFullNumberAndArithmeticOperator(arithmeticOperator) {
     arthimeticOperatorLead = arithmeticOperator
-    console.log(`arthimeticOperator: ${arthimeticOperatorLead}`);
+    // console.log(`arthimeticOperator: ${arthimeticOperatorLead}`);
 
     arithmeticOperatorArray.push(arthimeticOperatorLead)
-    console.log(`arithmeticOperatorArray: ${arithmeticOperatorArray}`);
+    // console.log(`arithmeticOperatorArray: ${arithmeticOperatorArray}`);
 
-    console.log(`builtNumberAsNumber!!: ${builtNumberAsNumber}`);
+    // console.log(`builtNumberAsNumber!!: ${builtNumberAsNumber}`);
     NumbersToOperateOnArray.push(builtNumberAsNumber)
-    console.log(`NumbersToOperateOnArray: ${NumbersToOperateOnArray}`);
+    // console.log(`NumbersToOperateOnArray: ${NumbersToOperateOnArray}`);
 }
 
 function performArithmetic(LeadingNumberToOperateOn, TrailingNumberToOperateOn, LeadingArithmeticOperator) {
-    console.log(`LeadingArithmeticOperator: ${LeadingArithmeticOperator}`);
-    console.log(`2 numbers`);
+    // console.log(`LeadingArithmeticOperator: ${LeadingArithmeticOperator}`);
+    // console.log(`2 numbers`);
     if (LeadingArithmeticOperator === `+`) {
         performAdd(LeadingNumberToOperateOn, TrailingNumberToOperateOn)
 
@@ -131,18 +145,20 @@ function performArithmetic(LeadingNumberToOperateOn, TrailingNumberToOperateOn, 
     } else if (LeadingArithmeticOperator === `/`) {
         performDivide(NumbersToOperateOnArray[0], NumbersToOperateOnArray[1])
     }
-    console.log(`NumbersToOperateOnArray: ${NumbersToOperateOnArray}`);
+    // console.log(`NumbersToOperateOnArray: ${NumbersToOperateOnArray}`);
+
+    return currentTotal;
 };
 
 
-function storeButtonSelected(event) {
-    console.log(`clicked3`);
-};
+// function storeButtonSelected(event) {
+//     // console.log(`clicked3`);
+// };
 
 function performAdd(LeadingNumberToOperateOn, TrailingNumberToOperateOn) {
     currentTotal = LeadingNumberToOperateOn + TrailingNumberToOperateOn
 
-    console.log(`currentTotal: ${currentTotal}`);
+    // console.log(`currentTotal: ${currentTotal}`);
 
     resetAfterArithmetic()
 }
@@ -150,7 +166,7 @@ function performAdd(LeadingNumberToOperateOn, TrailingNumberToOperateOn) {
 function performSubtract(LeadingNumberToOperateOn, TrailingNumberToOperateOn) {
     currentTotal = LeadingNumberToOperateOn - TrailingNumberToOperateOn
 
-    console.log(`currentTotal: ${currentTotal}`);
+    // console.log(`currentTotal: ${currentTotal}`);
 
     resetAfterArithmetic()
 }
@@ -158,7 +174,7 @@ function performSubtract(LeadingNumberToOperateOn, TrailingNumberToOperateOn) {
 function performMultiply(LeadingNumberToOperateOn, TrailingNumberToOperateOn) {
     currentTotal = LeadingNumberToOperateOn * TrailingNumberToOperateOn
 
-    console.log(`currentTotal: ${currentTotal}`);
+    // console.log(`currentTotal: ${currentTotal}`);
 
     resetAfterArithmetic()
 }
@@ -166,17 +182,17 @@ function performMultiply(LeadingNumberToOperateOn, TrailingNumberToOperateOn) {
 function performDivide(LeadingNumberToOperateOn, TrailingNumberToOperateOn) {
     currentTotal = LeadingNumberToOperateOn / TrailingNumberToOperateOn
 
-    console.log(`currentTotal: ${currentTotal}`);
+    // console.log(`currentTotal: ${currentTotal}`);
 
     resetAfterArithmetic()
 }
 
 
 function resetAfterArithmetic() {
-    console.log(`NumbersToOperateOnArrayA: ${NumbersToOperateOnArray}`);
+    // console.log(`NumbersToOperateOnArrayA: ${NumbersToOperateOnArray}`);
     NumbersToOperateOnArray = []
     NumbersToOperateOnArray.push(currentTotal)
-    console.log(`NumbersToOperateOnArrayB: ${NumbersToOperateOnArray}`);
+    // console.log(`NumbersToOperateOnArrayB: ${NumbersToOperateOnArray}`);
 
     arithmeticOperatorArray = []
     arithmeticOperatorArray.push(arthimeticOperatorLead)
